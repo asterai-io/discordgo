@@ -19,8 +19,6 @@ import (
 	"regexp"
 	"sync"
 	"time"
-
-	"github.com/gorilla/websocket"
 )
 
 // A Session represents a connection to the Discord API.
@@ -87,19 +85,12 @@ type Session struct {
 	// Whether the UDP Connection is ready
 	UDPReady bool // NOTE: Deprecated
 
-	// Stores a mapping of guild id's to VoiceConnections
-	VoiceConnections map[string]*VoiceConnection
-
 	// Managed state object, updated internally with events when
 	// StateEnabled is true.
 	State *State
 
 	// The http client used for REST requests
 	Client *http.Client
-
-	// The dialer used for WebSocket connection
-	Dialer *websocket.Dialer
-
 	// The user agent used for REST APIs
 	UserAgent string
 
@@ -116,9 +107,6 @@ type Session struct {
 	handlersMu   sync.RWMutex
 	handlers     map[string][]*eventHandlerInstance
 	onceHandlers map[string][]*eventHandlerInstance
-
-	// The websocket connection.
-	wsConn *websocket.Conn
 
 	// When nil, the session is not listening.
 	listening chan interface{}
@@ -2795,7 +2783,7 @@ const (
 
 	// TODO: remove when compatibility is not needed
 
-	IntentGuildBans Intent = IntentGuildModeration
+	IntentGuildBans = IntentGuildModeration
 
 	IntentsGuilds                 Intent = 1 << 0
 	IntentsGuildMembers           Intent = 1 << 1

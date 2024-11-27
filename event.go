@@ -102,12 +102,14 @@ func (s *Session) addEventHandlerOnce(eventHandler EventHandler) func() {
 // to a struct corresponding to the event for which you want to listen.
 //
 // eg:
-//     Session.AddHandler(func(s *discordgo.Session, m *discordgo.MessageCreate) {
-//     })
+//
+//	Session.AddHandler(func(s *discordgo.Session, m *discordgo.MessageCreate) {
+//	})
 //
 // or:
-//     Session.AddHandler(func(s *discordgo.Session, m *discordgo.PresenceUpdate) {
-//     })
+//
+//	Session.AddHandler(func(s *discordgo.Session, m *discordgo.PresenceUpdate) {
+//	})
 //
 // List of events can be found at this page, with corresponding names in the
 // library for each event: https://discord.com/developers/docs/topics/gateway#event-names
@@ -228,10 +230,6 @@ func (s *Session) onInterface(i interface{}) {
 		setGuildIds(t.Guild)
 	case *GuildUpdate:
 		setGuildIds(t.Guild)
-	case *VoiceServerUpdate:
-		go s.onVoiceServerUpdate(t)
-	case *VoiceStateUpdate:
-		go s.onVoiceStateUpdate(t)
 	}
 	err := s.State.OnInterface(s, i)
 	if err != nil {
